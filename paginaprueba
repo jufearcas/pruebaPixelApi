@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="facebook-domain-verification" content="4ue6gz91z965g2f7lu5ozxox352lpr" />
+<script>
+    
+    window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  'event': 'pageview',
+  'user_email': 'usuario@ejemplo.com'
+});
+
+</script>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-THRWB2T4');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina de prueba</title>
+    <style>
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+        .input-field {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+        label {
+            display: inline-block;
+            width: 80px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THRWB2T4"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+<!-- Aqui viene el codigo del pixel tambien -->
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '650412457310886');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=650412457310886&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+    <h1>Pagina de prueba</h1>   
+    <p>Esto es una pagina de prueba</p>
+    
+   
+<form id="userForm">
+    <label for="name">Nombre:</label>
+    <input type="text" id="name" class="input-field" name="name" required>
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" class="input-field" name="email" required>
+    <br>
+    <label for="phone">Teléfono:</label>
+    <input type="tel" id="phone" class="input-field" name="phone" required>
+    <br>
+    <button type="submit">Enviar</button>
+</form>
+<div id="confirmationMessage" class="success-message" style="display: none;">¡Formulario enviado correctamente!</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.js"></script>
+<script>
+    // Inicializar dataLayer si no existe
+    window.dataLayer = window.dataLayer || [];
+
+    document.getElementById("userForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Evita el envío real del formulario
+
+        // Obtener los valores individuales del formulario
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim().toLowerCase();
+        const phone = document.getElementById("phone").value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+
+        // Hashear nombre, email y teléfono
+        const hashedName = CryptoJS.SHA256(name).toString();
+        const hashedEmail = CryptoJS.SHA256(email).toString();
+        const hashedPhone = CryptoJS.SHA256(phone).toString();
+
+        // Enviar datos hasheados al dataLayer
+        window.dataLayer.push({
+            'event': 'formSubmission',
+            'formName': 'userForm',
+            'userName': hashedName,
+            'userEmail': hashedEmail,
+            'userPhone': hashedPhone
+        });
+
+        // Mostrar datos en consola
+        console.log("Datos enviados al dataLayer:", {
+            'event': 'formSubmission',
+            'formName': 'userForm',
+            'userName': hashedName,
+            'userEmail': hashedEmail,
+            'userPhone': hashedPhone
+        });
+
+        // Mostrar mensaje de confirmación
+        document.getElementById("confirmationMessage").style.display = "block";
+
+        // Limpiar el formulario después de enviar
+        this.reset();
+
+        // Si quieres que el mensaje desaparezca después de unos segundos
+        setTimeout(function() {
+            document.getElementById("confirmationMessage").style.display = "none";
+        }, 5000); // El mensaje desaparecerá después de 5 segundos
+    });
+</script>
+
+</body>
+</html>
