@@ -75,72 +75,73 @@ src="https://www.facebook.com/tr?id=650412457310886&ev=PageView&noscript=1"
     <p>Esto es una pagina de prueba</p>
     
    
-<form id="userForm">
-    <label for="name">Nombre:</label>
-    <input type="text" id="name" class="input-field" name="name" required>
-    <br>
-    <label for="email">Email:</label>
-    <input type="email" id="email" class="input-field" name="email" required>
-    <br>
-    <label for="phone">Teléfono:</label>
-    <input type="tel" id="phone" class="input-field" name="phone" required>
-    <br>
-    <button type="submit">Enviar</button>
-</form>
-<div id="confirmationMessage" class="success-message">¡Formulario enviado correctamente!</div>
-
-    // Inicializar dataLayer si no existe
-    window.dataLayer = window.dataLayer || [];
-
-    document.getElementById("userForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent the actual form submission
-
-        // Obtener los valores individuales del formulario
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim().toLowerCase();
-        const phone = document.getElementById("phone").value.trim();
-        const phonePattern = /^\+?[1-9]\d{1,14}$/; // Validates international phone numbers
-        if (!phonePattern.test(phone)) {
-            alert("Por favor, ingrese un número de teléfono válido.");
-            return;
-        }
-
-        // Hashear nombre, email y teléfono
-        const hashedName = CryptoJS.SHA256(name).toString();
-        const hashedEmail = CryptoJS.SHA256(email).toString();
-        const hashedPhone = CryptoJS.SHA256(phone).toString();
-
-        // Enviar datos hasheados al dataLayer
-        window.dataLayer.push({
-            'event': 'formSubmission',
-            'formName': 'userForm',
-            'userName': hashedName,
-            'userEmail': hashedEmail,
-            'userPhone': hashedPhone
+    <form id="userForm">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" class="input-field" name="name" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" class="input-field" name="email" required>
+        <br>
+        <label for="phone">Teléfono:</label>
+        <input type="tel" id="phone" class="input-field" name="phone" required>
+        <br>
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="confirmationMessage" class="success-message">¡Formulario enviado correctamente!</div>
+    
+    <script>
+        // Initialize dataLayer if it doesn't exist
+        window.dataLayer = window.dataLayer || [];
+    
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the actual form submission
+    
+            // Get individual values from the form
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim().toLowerCase();
+            const phone = document.getElementById("phone").value.trim();
+            const phonePattern = /^\+?[1-9]\d{1,14}$/; // Validates international phone numbers
+            if (!phonePattern.test(phone)) {
+                alert("Por favor, ingrese un número de teléfono válido.");
+                return;
+            }
+    
+            // Hash name, email and phone
+            const hashedName = CryptoJS.SHA256(name).toString();
+            const hashedEmail = CryptoJS.SHA256(email).toString();
+            const hashedPhone = CryptoJS.SHA256(phone).toString();
+    
+            // Send hashed data to dataLayer
+            window.dataLayer.push({
+                'event': 'formSubmission',
+                'formName': 'userForm',
+                'userName': hashedName,
+                'userEmail': hashedEmail,
+                'userPhone': hashedPhone
+            });
+    
+            // Display data in console
+            console.log("Datos enviados al dataLayer:", {
+                'event': 'formSubmission',
+                'formName': 'userForm',
+                'userName': hashedName,
+                'userEmail': hashedEmail,
+                'userPhone': hashedPhone
+            });
+    
+            // Show confirmation message
+            document.getElementById("confirmationMessage").style.display = "block";
+    
+            // Clear the form after submission
+            document.getElementById("userForm").reset();
+    
+            // If you want the message to disappear after a few seconds
+            setTimeout(function() {
+                document.getElementById("confirmationMessage").style.display = "none";
+            }, 5000); // The message will disappear after 5 seconds
         });
-
-        // Display data in console
-        console.log("Datos enviados al dataLayer:", {
-            'event': 'formSubmission',
-            'formName': 'userForm',
-            'userName': hashedName,
-            'userEmail': hashedEmail,
-            'userPhone': hashedPhone
-        });
-
-        // Show confirmation message
-        document.getElementById("confirmationMessage").style.display = "block";
-
-        // Limpiar el formulario después de enviar
-        // Clear the form after submission
-
-        // Si quieres que el mensaje desaparezca después de unos segundos
-        // If you want the message to disappear after a few seconds
-            document.getElementById("confirmationMessage").style.display = "none";
-        }, 5000); // El mensaje desaparecerá después de 5 segundos
-    });
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.js" async></script>
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.js" async></script>
 </body>
 </html>
