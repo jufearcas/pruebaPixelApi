@@ -7,7 +7,7 @@
     window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   'event': 'pageview',
-  'user_email': 'usuario@ejemplo.com'
+  'user_email': CryptoJS.SHA256('usuario@ejemplo.com').toString()
 });
 
 </script>
@@ -20,7 +20,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina de prueba</title>
+    <title>Test Page</title>
     <style>
         .success-message {
             color: green;
@@ -53,7 +53,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 
-<!-- Aqui viene el codigo del pixel tambien -->
+<!-- Here comes the pixel code as well -->
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -87,20 +87,23 @@ src="https://www.facebook.com/tr?id=650412457310886&ev=PageView&noscript=1"
     <br>
     <button type="submit">Enviar</button>
 </form>
-<div id="confirmationMessage" class="success-message" style="display: none;">¡Formulario enviado correctamente!</div>
+<div id="confirmationMessage" class="success-message">¡Formulario enviado correctamente!</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.js"></script>
-<script>
     // Inicializar dataLayer si no existe
     window.dataLayer = window.dataLayer || [];
 
     document.getElementById("userForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Evita el envío real del formulario
+        event.preventDefault(); // Prevent the actual form submission
 
         // Obtener los valores individuales del formulario
         const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim().toLowerCase();
-        const phone = document.getElementById("phone").value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+        const phone = document.getElementById("phone").value.trim();
+        const phonePattern = /^\+?[1-9]\d{1,14}$/; // Validates international phone numbers
+        if (!phonePattern.test(phone)) {
+            alert("Por favor, ingrese un número de teléfono válido.");
+            return;
+        }
 
         // Hashear nombre, email y teléfono
         const hashedName = CryptoJS.SHA256(name).toString();
@@ -116,7 +119,7 @@ src="https://www.facebook.com/tr?id=650412457310886&ev=PageView&noscript=1"
             'userPhone': hashedPhone
         });
 
-        // Mostrar datos en consola
+        // Display data in console
         console.log("Datos enviados al dataLayer:", {
             'event': 'formSubmission',
             'formName': 'userForm',
@@ -125,18 +128,19 @@ src="https://www.facebook.com/tr?id=650412457310886&ev=PageView&noscript=1"
             'userPhone': hashedPhone
         });
 
-        // Mostrar mensaje de confirmación
+        // Show confirmation message
         document.getElementById("confirmationMessage").style.display = "block";
 
         // Limpiar el formulario después de enviar
-        this.reset();
+        // Clear the form after submission
 
         // Si quieres que el mensaje desaparezca después de unos segundos
-        setTimeout(function() {
+        // If you want the message to disappear after a few seconds
             document.getElementById("confirmationMessage").style.display = "none";
         }, 5000); // El mensaje desaparecerá después de 5 segundos
     });
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.js" async></script>
 </body>
 </html>
